@@ -1,0 +1,25 @@
+<!--
+  Definimos la vista de una sola suceso con el componente ion-card
+ -->
+<ion-card>
+  <ion-card-header>
+    <ion-card-subtitle>Fecha: {{ suceso.startDate.substr(0,10) }} <br>Hora: {{ suceso.startDate.substr(11,20) }}</ion-card-subtitle>
+    <ion-card-title>{{ suceso.cityTown }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    Provincia: <b> {{ suceso.province }} </b> Nivel de incidencia:
+    <b>{{ suceso.incidenceLevel }}</b>
+    <p>
+      Carretera: <b>{{ suceso.road }}</b> Punto Km.:
+      <b> {{ suceso.pkStart }} </b> Direccion: <b>{{ suceso.direction }}</b>
+    </p>
+    <p>
+      Latitud: <b>{{ suceso.latitude }} </b> Longitud:
+      <b> {{ suceso.longitude }} </b>
+    </p>
+  </ion-card-content>
+  <ion-item>
+    <ion-icon slot="end" name="trash-outline" (click)="onClick()"></ion-icon>
+    <ion-label>{{ suceso.autonomousRegion }}</ion-label>
+  </ion-item>
+</ion-card>

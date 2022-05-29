@@ -1,0 +1,19 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>
+     Sucesos guardados
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!--
+    Si la lista está vacía se muestra este ensaje
+   -->
+  <ion-item *ngIf="gestionSucesosLeer.getSucesos().length===0" color="primary">
+    No hay sucesos para leer
+  </ion-item>
+
+  <!-- Se visualiza la lista de sucesos para leer que se obtienen del servicio que las gestiona -->
+  <app-sucesos [listaSucesos]="gestionSucesosLeer.getSucesos()"></app-sucesos>
+</ion-content>
