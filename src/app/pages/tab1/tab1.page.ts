@@ -3,7 +3,7 @@
 import { environment } from './../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { GestionSucesosLeerService } from './../../services/gestion-sucesos-leer.service';
-import { ICoord, ICoordenadas, raizIncidentes, incidencias } from './../../interfaces/interfaces';
+import { ICoordenadas, raizIncidentes, incidencias } from './../../interfaces/interfaces';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
@@ -24,7 +24,7 @@ export class Tab1Page implements OnInit {
   coordenadas: ICoordenadas[] = [];
   latitud: number;
   longitud: number;
-  lat1rad: number;
+  // dis: { (...items: ConcatArray<incidencias>[]): incidencias[]; (...items: (incidencias | ConcatArray<incidencias>)[]): incidencias[] };
 
   constructor(private obtenerDatos: HttpClient, public gestionSucesosLeer: GestionSucesosLeerService) {
     this.cargarIncidencias();
@@ -36,12 +36,7 @@ export class Tab1Page implements OnInit {
 
   }
 
-  ngOnInit() {
-
-
-
-
-  }
+  ngOnInit() { }
 
 
   public check(eventoRecibido, item: incidencias) {
@@ -56,24 +51,28 @@ export class Tab1Page implements OnInit {
 
 
   private cargarIncidencias() {
+    // let dis = {} as incidencias;
+    // dis.distancia = this.distanciaEnKms(33, 34, 44, 44);
     let respuesta: Observable<raizIncidentes> =
       this.obtenerDatos.get<raizIncidentes>(this.apiUrl);
     respuesta.subscribe(resp => {
       this.listaSucesos.push(...resp.incidences);
     });
+    // this.listaSucesos.concat = this.dis;
+    // console.log(this.listaSucesos);
 
   }
 
   public distanciaEnKms(lat1, lon1, lat2, lon2) {
-    let R = 6371; // Radius of the earth in km
-    let dLat = (lat2 - lat1) * (Math.PI / 180);  // deg2rad below
+    let R = 6371;
+    let dLat = (lat2 - lat1) * (Math.PI / 180);
     let dLon = (lon2 - lon1) * (Math.PI / 180);
     let a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos((lat1) * (Math.PI / 180)) * Math.cos((lat2) * (Math.PI / 180)) *
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    let d = R * c; // Distance in km
+    let d = R * c;
     return Math.round(d);
   }
 

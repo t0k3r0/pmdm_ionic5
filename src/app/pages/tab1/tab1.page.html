@@ -1,13 +1,14 @@
 <ion-list-header>
   <ion-label>Sucesos</ion-label>
 </ion-list-header>
-<ion-content [scrollEvents]="true">
+<ion-content scroll-y="true">
   <ion-grid [fixed]>
     <ion-list *ngFor="let item of listaSucesos">
       <ion-item>
         <ion-label class="ion-text-wrap">
           <h3>
-            Lugar: <b style="color: rgb(29, 99, 186)"> {{ item.cityTown}} </b>
+            Lugar:
+            <b style="color: rgb(29, 99, 186)"> {{ item.cityTown}} </b>
           </h3>
           <h3>
             Distancia:

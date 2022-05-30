@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SucesosComponent implements OnInit {
   @Input() listaSucesos: incidencias[];
-
+  // @Input() dis = {} as incidencias;
   constructor() { }
 
   ngOnInit() { }
