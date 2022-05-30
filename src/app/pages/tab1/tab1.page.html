@@ -1,38 +1,43 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title> Sucesos </ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content>
-  <ion-list *ngFor="let item of listaSucesos">
-    <ion-item>
-      <ion-checkbox
-        [checked]="buscar(item)"
-        color="primary"
-        slot="start"
-        (ionChange)="check($event, item)"
-      >
-      </ion-checkbox>
-      <ion-label class="ion-text-wrap">
-        <h3>
-          Distancia:
-          <b style="color: rgb(0, 0, 0)">
-            {{distanciaEnKms(item.longitude,item.latitude,longitud,latitud)}}
-            kms.
-          </b>
-        </h3>
-        <h3>Lugar: <b style="color: rgb(0, 0, 0)"> {{ item.cityTown}} </b></h3>
-        <h3>
-          Fecha:<b style="color: rgb(0, 0, 0)"
-            >{{ item.startDate.substr(0,10)}}
-          </b>
-        </h3>
+<ion-list-header>
+  <ion-label>Sucesos</ion-label>
+</ion-list-header>
+<ion-content [scrollEvents]="true">
+  <ion-grid [fixed]>
+    <ion-list *ngFor="let item of listaSucesos">
+      <ion-item>
+        <ion-label class="ion-text-wrap">
+          <h3>
+            Lugar: <b style="color: rgb(29, 99, 186)"> {{ item.cityTown}} </b>
+          </h3>
+          <h3>
+            Distancia:
+            <b style="color: rgb(29, 99, 186)">
+              <!-- {{distanciaEnKms(item.longitude,item.latitude,longitud,latitud)}} -->
+              kms.
+            </b>
+          </h3>
 
-        <p>
-          Tipo: <b style="color: rgb(0, 0, 0)"> {{ item.incidenceType}} </b>
-        </p>
-        <p>Motivo: <b style="color: rgb(0, 0, 0)">{{ item.cause}}</b></p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+          <p>
+            Fecha:<b style="color: rgb(29, 99, 186)"
+              >{{ item.startDate.substr(0,10)}}
+            </b>
+          </p>
+
+          <p>
+            Tipo:
+            <b style="color: rgb(29, 99, 186)"> {{ item.incidenceType}} </b>
+          </p>
+          <p>Motivo: <b style="color: rgb(29, 99, 186)">{{ item.cause}}</b></p>
+
+          <ion-toggle
+            [checked]="buscar(item)"
+            color="primary"
+            slot="start"
+            (ionChange)="check($event, item)"
+          >
+          </ion-toggle>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
 </ion-content>

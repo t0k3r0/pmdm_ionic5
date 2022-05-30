@@ -9,19 +9,17 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./suceso.component.scss'],
 })
 export class SucesoComponent implements OnInit {
-  @Input() suceso: incidencias;    // Se le pasa este valor al usar el componente
+  @Input() suceso: incidencias;
 
   constructor(private gestionSucesosLeer: GestionSucesosLeerService, private alertController: AlertController) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  // Al pulsar sobre borrar se abre una alerta para confirmarlo
   public onClick() {
     this.confirmarBorrar();
 
   }
 
-  // Mensaje de alerta para confirmar el borrado
   async confirmarBorrar() {
     const alert = await this.alertController.create({
       header: 'Confirmar',
@@ -34,8 +32,7 @@ export class SucesoComponent implements OnInit {
         }, {
           text: 'Okay',
           handler: () => {
-            // console.log('Confirm Okay');
-            this.gestionSucesosLeer.borrarSuceso(this.suceso);     // Se llama al servicio que gestiona las sucesos para leer y borrarla
+            this.gestionSucesosLeer.borrarSuceso(this.suceso);
           }
         }
       ]

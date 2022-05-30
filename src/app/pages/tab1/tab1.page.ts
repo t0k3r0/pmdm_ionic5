@@ -6,7 +6,6 @@ import { GestionSucesosLeerService } from './../../services/gestion-sucesos-leer
 import { ICoord, ICoordenadas, raizIncidentes, incidencias } from './../../interfaces/interfaces';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-// import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 @Component({
   selector: 'app-tab1',
@@ -27,14 +26,12 @@ export class Tab1Page implements OnInit {
   longitud: number;
   lat1rad: number;
 
-  constructor(private obtenerDatos: HttpClient, private obtenerIpLatitud: HttpClient, private obtenerIpLongitude: HttpClient,
-    public gestionSucesosLeer: GestionSucesosLeerService) {
+  constructor(private obtenerDatos: HttpClient, public gestionSucesosLeer: GestionSucesosLeerService) {
     this.cargarIncidencias();
     this.obtenerDatos.get<any>(this.ipUrl + this.ipKey).subscribe(res => {
       this.latitud = res.latitude;
       this.longitud = res.longitude;
-      // console.log(res.latitude);
-      // console.log(res.longitude);
+
     });
 
   }
@@ -65,14 +62,9 @@ export class Tab1Page implements OnInit {
       this.listaSucesos.push(...resp.incidences);
     });
 
-
-    // let answer: Observable<ICoord>= this.obtenerDatos.get<ICoord>(this.apiUrl).subscribe(res => {
-    //   answer.subscribe(res => this.coordenadas.push(...res.latitude);
-    //   console.log(res.latitude);
-    // });
   }
 
-  public  distanciaEnKms(lat1, lon1, lat2, lon2) {
+  public distanciaEnKms(lat1, lon1, lat2, lon2) {
     let R = 6371; // Radius of the earth in km
     let dLat = (lat2 - lat1) * (Math.PI / 180);  // deg2rad below
     let dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -84,21 +76,7 @@ export class Tab1Page implements OnInit {
     let d = R * c; // Distance in km
     return Math.round(d);
   }
-  // ionViewDidLoad() {
-  //   this.distanciaEnKms(4, 3, 2, 23);
-  // }
-  // private cargarDatosIp() {
-  //   let respuestaDatosLatitud =
-  //     this.obtenerIpLatitud.get<ipData>('https://api.ipbase.com/v1/json/');
-  // respuestaDatosLatitud.subscribe(resp => {
-  //   this.listaDatos.push(...resp.latitude);
-  // });
 
-  // let respuestaDatosLongitude =this.obtenerIpLongitude.get<ipData['longitude']>('https://api.ipbase.com/v1/json/');
-
-  // console.log(respuestaDatosLatitud);
-  // console.log(respuestaDatosLongitude);
-  // }
 
   public buscar(suceso: incidencias): boolean {
     let indice = this.gestionSucesosLeer.buscar(suceso);
