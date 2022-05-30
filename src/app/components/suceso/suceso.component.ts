@@ -1,5 +1,5 @@
 import { GestionSucesosLeerService } from '../../services/gestion-sucesos-leer.service';
-import { Incidence } from '../../interfaces/interfaces';
+import { incidencias } from '../../interfaces/interfaces';
 import { Component, Input, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 
@@ -9,7 +9,7 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./suceso.component.scss'],
 })
 export class SucesoComponent implements OnInit {
-  @Input() suceso: Incidence;    // Se le pasa este valor al usar el componente
+  @Input() suceso: incidencias;    // Se le pasa este valor al usar el componente
 
   constructor(private gestionSucesosLeer: GestionSucesosLeerService, private alertController: AlertController) { }
 

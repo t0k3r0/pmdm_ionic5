@@ -1,12 +1,12 @@
-import { ipData } from './../../interfaces/interfaces';
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/member-ordering */
 import { environment } from './../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { GestionSucesosLeerService } from './../../services/gestion-sucesos-leer.service';
-import { RootObject, Incidence } from './../../interfaces/interfaces';
+import { ICoord, ICoordenadas, raizIncidentes, incidencias } from './../../interfaces/interfaces';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
+// import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 @Component({
   selector: 'app-tab1',
@@ -15,27 +15,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Tab1Page implements OnInit {
 
-  categorias: string[] = ['general', 'business', 'technology', 'science', 'sports'];
 
 
   apiUrl: string = environment.apiUrl;
   ipUrl: string = environment.ipUrl;
+  ipKey: string = environment.ipKey;
 
-  // Creo e inicializo un array vacío
-  listaSucesos: Incidence[] = [];
-  listaDatos: ipData[] = [];
+  listaSucesos: incidencias[] = [];
+  coordenadas: ICoordenadas[] = [];
+  latitud: number;
+  longitud: number;
+  lat1rad: number;
 
-  constructor(private obtenerDatos: HttpClient, private obtenerIp: HttpClient, public gestionSucesosLeer: GestionSucesosLeerService) {
-    // this.cargarFichero();
-    this.cargarIncidencias(this.categorias[0]);
+  constructor(private obtenerDatos: HttpClient, private obtenerIpLatitud: HttpClient, private obtenerIpLongitude: HttpClient,
+    public gestionSucesosLeer: GestionSucesosLeerService) {
+    this.cargarIncidencias();
+    this.obtenerDatos.get<any>(this.ipUrl + this.ipKey).subscribe(res => {
+      this.latitud = res.latitude;
+      this.longitud = res.longitude;
+      // console.log(res.latitude);
+      // console.log(res.longitude);
+    });
+
   }
 
   ngOnInit() {
 
+
+
+
   }
 
 
-  public check(eventoRecibido, item: Incidence) {
+  public check(eventoRecibido, item: incidencias) {
     let estado: boolean = eventoRecibido.detail.checked;
     if (estado) {
       this.gestionSucesosLeer.addSuceso(item);
@@ -45,36 +57,55 @@ export class Tab1Page implements OnInit {
 
   }
 
-  // En función de la categoría elegida se realiza la consulta REST correspondiente
-  public cambiarCategoria(eventoRecibido) {
-    this.listaSucesos = [];
-    this.cargarIncidencias(eventoRecibido.detail.value);
-  }
 
-  // Se realiza la consulta REST de una categoría
-  // Se concatena la URL, la categoría y la apiKey
-  private cargarIncidencias(categoria: string) {
-    let respuesta: Observable<RootObject> =
-    this.obtenerDatos.get<RootObject>('https://api.euskadi.eus/traffic/v1.0/incidences/');
-
-    // let respuestaDatos: Observable<ipData> =
-    //   this.obtenerIp.get<ipData>('https://api.ipbase.com/v1/json/');
-
+  private cargarIncidencias() {
+    let respuesta: Observable<raizIncidentes> =
+      this.obtenerDatos.get<raizIncidentes>(this.apiUrl);
     respuesta.subscribe(resp => {
       this.listaSucesos.push(...resp.incidences);
     });
-    // respuestaDatos.subscribe(resp => {
-    //   this.listaDatos.push(...resp.ipData);
+
+
+    // let answer: Observable<ICoord>= this.obtenerDatos.get<ICoord>(this.apiUrl).subscribe(res => {
+    //   answer.subscribe(res => this.coordenadas.push(...res.latitude);
+    //   console.log(res.latitude);
     // });
   }
 
-  // Comprueba si un artículo está en la lista para leer
-  // Devuelve true o false para marcar el check
-  public buscar(articulo: Incidence): boolean {
-    let indice = this.gestionSucesosLeer.buscar(articulo);
+  public  distanciaEnKms(lat1, lon1, lat2, lon2) {
+    let R = 6371; // Radius of the earth in km
+    let dLat = (lat2 - lat1) * (Math.PI / 180);  // deg2rad below
+    let dLon = (lon2 - lon1) * (Math.PI / 180);
+    let a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1) * (Math.PI / 180)) * Math.cos((lat2) * (Math.PI / 180)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    let d = R * c; // Distance in km
+    return Math.round(d);
+  }
+  // ionViewDidLoad() {
+  //   this.distanciaEnKms(4, 3, 2, 23);
+  // }
+  // private cargarDatosIp() {
+  //   let respuestaDatosLatitud =
+  //     this.obtenerIpLatitud.get<ipData>('https://api.ipbase.com/v1/json/');
+  // respuestaDatosLatitud.subscribe(resp => {
+  //   this.listaDatos.push(...resp.latitude);
+  // });
+
+  // let respuestaDatosLongitude =this.obtenerIpLongitude.get<ipData['longitude']>('https://api.ipbase.com/v1/json/');
+
+  // console.log(respuestaDatosLatitud);
+  // console.log(respuestaDatosLongitude);
+  // }
+
+  public buscar(suceso: incidencias): boolean {
+    let indice = this.gestionSucesosLeer.buscar(suceso);
     if (indice === -1) {
       return false;
     }
     return true;
   }
 }
+

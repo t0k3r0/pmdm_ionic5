@@ -1,4 +1,4 @@
-import { incidencias } from './../interfaces/interfaces';
+import { ipData } from './../interfaces/interfaces';
 import { Injectable } from '@angular/core';
 import { Storage } from '@capacitor/storage';
 
@@ -27,7 +27,7 @@ export class GestionStorageService {
 
   // A partir de su clave obtiene un objeto almacenado en local
   // Antes de devolverlo, debe ser convertido de formato JSON a formato normal
-  async getObject(key: string): Promise<incidencias[]> {
+  async getObject(key: string): Promise<ipData[]> {
     const ret = await Storage.get({ key });
     return JSON.parse(ret.value);
   }

@@ -2,11 +2,9 @@
   Se define el componente que muestra una lista de sucesos
  -->
 <ion-grid fixed>
-
-        <ion-col size="3" *ngFor="let suceso of listaSucesos">
-
-        <ion-row size="3" offset="3">
-          <app-suceso [suceso]="suceso"></app-suceso>
-        </ion-row>
+  <ion-col size="3" *ngFor="let suceso of listaSucesos">
+    <ion-row size="3" offset="3">
+      <app-suceso [suceso]="suceso"></app-suceso>
+    </ion-row>
   </ion-col>
 </ion-grid>

@@ -1,4 +1,4 @@
-import { Incidence } from '../../interfaces/interfaces';
+import { incidencias } from '../../interfaces/interfaces';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -7,10 +7,10 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./sucesos.component.scss'],
 })
 export class SucesosComponent implements OnInit {
-  @Input() listaSucesos: Incidence[];      // Se recibe este valor cuando se usa el componente
+  @Input() listaSucesos: incidencias[];
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }

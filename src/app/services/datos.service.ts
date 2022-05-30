@@ -8,17 +8,17 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class GestionSucesosLeerService {
-  // Se crea el array que va almacenar las sucesos
-  private sucesosLeer: incidencias[] = [];
+export class GestionDatosLeerService {
+  // Se crea el array que va almacenar las datos
+  private datosLeer: incidencias[] = [];
 
   constructor(private gestionStorage: GestionStorageService) {
     // Se recuperan los datos que hubiera en Storage
-    let datosPromesa: Promise<incidencias[]> = gestionStorage.getObject('sucesosLeer');
+    let datosPromesa: Promise<incidencias[]> = gestionStorage.getObject('datosLeer');
     datosPromesa.then(datos => {
       if (datos) {
         // console.log(datos);
-        this.sucesosLeer.push(...datos);
+        this.datosLeer.push(...datos);
       }
     });
 
@@ -26,12 +26,12 @@ export class GestionSucesosLeerService {
 
   // Se busca un artículo en el array
   public buscar(item: incidencias): number {
-    let indice: number = this.sucesosLeer.findIndex(
+    let indice: number = this.datosLeer.findIndex(
       function (cadaArticulo) {
         return JSON.stringify(cadaArticulo) === JSON.stringify(item);
       }
     );
-    //let indice = this.sucesosLeer.indexOf(articuloEncontrado);
+    //let indice = this.datosLeer.indexOf(articuloEncontrado);
     return indice;
   }
 
@@ -41,9 +41,9 @@ export class GestionSucesosLeerService {
     let itemString = JSON.stringify(item);
     item = JSON.parse(itemString);
 
-    this.sucesosLeer.push(item);
-    this.gestionStorage.setObject('sucesosLeer', this.sucesosLeer);
-    // console.log(this.sucesosLeer);
+    this.datosLeer.push(item);
+    this.gestionStorage.setObject('datosLeer', this.datosLeer);
+    // console.log(this.datosLeer);
   }
 
   // Se busca la suceso en el array y se borra
@@ -51,14 +51,14 @@ export class GestionSucesosLeerService {
     let indice = this.buscar(item);
 
     if (indice !== -1) {
-      this.sucesosLeer.splice(indice, 1);
-      this.gestionStorage.setObject('sucesosLeer', this.sucesosLeer);
+      this.datosLeer.splice(indice, 1);
+      this.gestionStorage.setObject('datosLeer', this.datosLeer);
     }
-    // console.log(this.sucesosLeer);
+    // console.log(this.datosLeer);
   }
 
   // Devuelve el contenido del array
-  public getSucesos() {
-    return this.sucesosLeer;
+  public getDatos() {
+    return this.datosLeer;
   }
 }
